@@ -1,0 +1,67 @@
+---
+title: "Homework 3"
+output: html_document
+date: "2025-09-30"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+# reading libraries
+library(colorfindr)
+library(dplyr)
+library(ggplot2)
+
+# reading in the data
+data <- read.csv("homework3_data.csv")
+```
+
+```{r}
+summary(data$sales)
+```
+
+
+```{r}
+# summary stats
+summary(data$design)
+
+
+
+```
+
+# Color selection
+```{r}
+
+colors_selection_data <- get_colors("~/Desktop/get_colors_amazon.png")
+cols <- make_palette(colors_selection_data[1:100, ])
+data <- data %>% mutate(design_label = factor(design, levels = c(0,1),
+                                              labels = c("Old Design", "New Design")))
+custom_colors <- c("#F9D94C","#252F3D")
+
+brand_map <- c("Old Design" = custom_colors[1],
+               "New Design" = custom_colors[2])
+
+```
+
+```{r}
+ggplot(data, aes(x = design_label, y = sales, fill = design_label)) +
+  geom_boxplot(width = 0.35, alpha = 0.75, outlier.shape = NA, color = "black") + 
+  geom_jitter(aes(color = design_label), width = 0.12, alpha = 0.35, size = 1.6) +
+  scale_fill_manual(values = brand_map) +
+  scale_color_manual(values = brand_map)
+  labs(title = "Sales by Design", x = NULL, y = "Sale Amount (USD") +
+  theme_minimal(base_size = 14) +
+  theme(legend.position = "none")
+```
+
+```{r}
+ggplot(data, aes(x = sales, color = design_label)) +
+  stat_ecdf(size = 1.1) +
+  scale_color_manual(values = brand_map) +
+  labs(title = "Cumulative Distribution of Sales by Design", 
+      x = "Sale Amount($)", Y = "F(x)= P(Sales <= x)", color = "Design") +
+  theme_minimal(base_size = 14)
+```
+
