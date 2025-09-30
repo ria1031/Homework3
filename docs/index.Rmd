@@ -67,3 +67,5 @@ ggplot(data, aes(x = sales, color = design_label)) +
   theme_minimal(base_size = 14)
 ```
 
+
+# Final Suggestion
