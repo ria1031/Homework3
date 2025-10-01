@@ -68,4 +68,50 @@ ggplot(data, aes(x = sales, color = design_label)) +
 ```
 
 
-# Final Suggestion
+# Estimated Sales
+```{r}
+data %>% 
+  group_by(design_label) %>%
+  summarise(mean_sales = mean(sales), .grops= "drop")
+```
+
+# Does it mean the $1.80 threhold?
+Yes. Since $3.66 > $1.80, the redesign clears the company's requirement. This observed gain nearly doubles that threshold. This reinforces the fact that the redesign had a meaningful positive impact on customer spending.
+
+# Statistical Evidence
+```{r}
+
+t.test(sales ~ design_label, data = data, var.equal = TRUE)
+```
+With the p-value being essentially -, we can conclude that the difference in sales between designs is statistically significant. Also, the confidence interval does not include zero, also confirming that the New Design yields higher sales.
+# Net Promoter Score (NPS)
+```{r}
+data %>% 
+  group_by(design_label) %>%
+  summarise(mean_nps = mean(nps), .groups = "drop")
+
+```
+
+Since the mean NPS, went up from 4.60 to 5.6, we can conclude that it strengthens the case.
+
+# Final Recommendation
+Based on the analysis, I recommend that the company full commits to the full website redesign.  The Average customer sales increased from about $31.85 under the Old Design to about $35.51 under the New Design, indicating an uplift of $3.66 per customer. Since the company required at least an $1.80 increase, this effect nearly doubles that threshold. These results and evidence indicate that the redesign would meaningfully improve sales performance.
+
+# Graphical Evidence 1: Boxplot with Jitter
+The boxplot comparison between Old and New Designs show a clear upward shift in sales under the New Design. The median sales value is higher, and the spread of customer sales has shifted upward overall. The jittered points also reinforce that individual customers are more likely to have higher sales amount under the New Design. This also supports the conclusion that the redesign has a positive effect on customer spending.
+
+# Graphical Evidence 2: ECDF 
+The cumulative distribution of sales further illustrates the improvement. The New Design curve lies consistently to the right of the Old Design curve, meaning that for any given sales threshold, a smaller proportion of customers fall below it under the New Design. This graphical evidence confirms that teh distribution of sales improved across the customer base,, not just at the mean.
+
+# Summary statistics
+The estimated mean sales under the Old Design were $31.85, while under the New Design they rose to $35.51. The difference of $3.66 per customer substantially exceeds the company's benchmark of $1.80. Thus, the redesign provides a meaningful financial improvement. 
+
+# Statistical Evidence: Two-Sample t-test
+By performing a two-sample t-test comparing sales across the 2 designs, it is confirmed that the difference in means is statistically significant. The test produced a t-statistic of -8.17 and a p-value of 3.49 x 10_-14, far below the standard 0.05 significance threshold. The 95% confidence interval for the difference ranged from -4.55 to -2.78, indicating that the true sales improvement is very unlikely to be due to random chance. this test provides strong statistical confirmation that the redesign leads to higher customer sales.
+
+# Alternative Statement
+An alternative position would be to not commit to the redesign. This could be justified if the observed improvement in sales was influenced by external factors rather than the redesign itself. These external factors could be promotions or seasonal effects. Also, if the Net Promoter Scores(NPS) were to decline under the New Design, executives might worry about long-term customer loyalty, even if short-term sales increased.
+
+# Conclusion
+Taking all evidence into account, the redesign improves average customer sales by about $3.66, more than meeting the company's required threshold Both graphical and statistical evidence support this conclusion and therefore the redesign should be pursued.
+
